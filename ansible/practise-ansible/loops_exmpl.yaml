@@ -1,0 +1,13 @@
+---
+  - name: testing the loops with some services
+    hosts: 192.168.56.113
+    vars:
+      my_service:
+        - crond
+        - sshd
+    tasks:
+      - name: start the crond & sshd services
+        service: 
+          name: "{{ item }}"
+          state: started
+        loop: "{{ my_service }}"

@@ -1,0 +1,8 @@
+---
+- name: copying some files
+  hosts: all
+  tasks:
+    - name: copy file to remote machines
+      copy:
+        src: /root/calico.yaml
+        dest: /root/calico-ansible

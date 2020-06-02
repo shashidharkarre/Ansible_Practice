@@ -1,0 +1,16 @@
+---
+  - name: create new uesers and add them to groups
+    hosts: 192.168.56.113
+    tasks:
+      - name: create users
+        user: 
+          name: "{{ item.name }}"
+          state: present
+          groups: "{{ item.groups }}"
+        loop:
+          - name: Nikil
+            groups: linda
+          - name: Nikita
+            groups: shiva
+          - name: shireesha
+            groups: users

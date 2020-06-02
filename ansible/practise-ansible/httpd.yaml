@@ -1,0 +1,48 @@
+---
+  - name: Install httpd package, enable service and undo installation
+    hosts: target
+    tasks:
+      - name: install httpd & firewalld
+        yum:
+          name:
+            - httpd
+            - firewalld
+          state: latest
+
+      - name: update index.html
+        copy:
+          content: "Hello Shiva Welcome to Apache WebServices"
+          dest: /var/www/html/index.html
+
+      - name: start httpd service
+        service: 
+          name: httpd
+          state: started
+          enabled: true
+
+      - name: start firewalld service
+        service: 
+          name: firewalld
+          state: started
+          enabled: true
+
+      - name: Open firewalld for http
+        firewalld:
+          service: http
+          state: enabled
+          permanent: yes
+          immediate: yes
+
+
+---
+  - name: Test web access
+    hosts: localhost
+    become: false
+    tasks:
+
+      - name: "Connect to the webserver"
+        uri:
+          return_content: true
+          status_code: 200
+          url: "http://192.168.56.113"
+ 

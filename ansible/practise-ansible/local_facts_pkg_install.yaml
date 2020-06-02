@@ -1,0 +1,29 @@
+---
+  - name: install custom facts & snmbd service
+    hosts: 192.168.56.113
+    vars:
+      remote_directory: /etc/ansible/facts.d
+      fact_file: localfacts.fact
+    tasks:
+      - name: create a fact.d directory on the target node
+        file: 
+          state: directory
+          recurse: yes
+          path: "{{ remote_directory }}"
+
+      - name: copy the facts file to the remote directory
+        copy:
+          src: "{{ fact_file }}"
+          dest: "{{ remote_directory }}"
+
+  - name: install samba package using localfacts
+    hosts: 192.168.56.113
+    tasks:
+      - name: extract the package name from localfacts
+        yum: 
+          name: "{{ ansible_local.localfacts.localfacts.package }}"
+
+      - name: start the service smb
+        service: 
+          name: "{{ ansible_local.localfacts.localfacts.service }}"
+          state: started

@@ -1,0 +1,12 @@
+---
+  - name: Test web access  
+    hosts: localhost
+    become: false
+    tasks: 
+    
+     -  name: "Connect to the webserver"
+        uri: 
+          return_content: true
+          status_code: 200
+          url: "http://192.168.56.113"
+

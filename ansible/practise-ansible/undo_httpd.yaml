@@ -1,0 +1,18 @@
+---
+  - name: uninstall apache web server
+    hosts: target
+    become: yes
+    tasks:
+      - name: disable firewalld for http
+        firewalld: 
+          service: httpd
+          state: disabled
+          permanent: yes
+      - name: remvoe index.html
+        file:
+          path: /var/www/html/index.html
+          state: absent
+      - name: remove httpd package
+        yum:
+         name: httpd
+         state: absent

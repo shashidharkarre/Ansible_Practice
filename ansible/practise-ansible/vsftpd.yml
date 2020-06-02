@@ -1,0 +1,20 @@
+---
+-  name: Install vsftpd on the inventory hosts
+   hosts: all
+   tasks:
+     - name: install vsftpd package
+       yum:
+         name: vsftpd
+         state: present
+     - name: start and enable vsftpd
+       service:
+         name: vsftpd
+         state: started
+         enabled: true
+     - name: copy the content to the vsftpd folder
+       copy: 
+         content: "Welcome to the FTP server"
+         dest: /var/ftp/pub/README
+         force: no
+         mode: 0444
+...

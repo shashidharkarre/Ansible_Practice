@@ -1,0 +1,41 @@
+---
+  - name: install apache webserver and enable the service
+    hosts: dbservers
+    tasks:
+      - name: install http package
+        yum:
+          name:
+           - httpd
+           - firewalld
+          state: latest
+      - name: install welcome package
+        copy:
+          content: "Astalavista Shiva.."
+          dest: /var/www/html/index.html
+      - name: start web service
+        service: 
+          name: httpd 
+          state: started
+          enabled: true
+      - name: start firewalld services
+        service:
+          name: firewalld
+          enabled: true
+          state: started
+      - name: open firewalld rule
+        firewalld:
+          service: http
+          permanent: true
+          state: enabled
+          immediate: yes
+
+  - name: Test webserver access
+    hosts: localhost
+    become: no
+    tasks:
+      - name: Connect to the webserver
+        uri:
+          url: http://192.168.0.26
+          return_content: yes
+          status_code: 200
+
