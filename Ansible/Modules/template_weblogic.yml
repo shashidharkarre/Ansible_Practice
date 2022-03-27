@@ -1,0 +1,9 @@
+- name: install Apache webserver
+  hosts: weblogic
+
+  tasks:
+       - name: copy files of weblogic
+         template: 
+          src: "{{ sourcepath }}/weblogic.conf.j2"
+          dest: "{{ destinationpath }}/weblogic.conf"
+          mode: '0644'

@@ -1,0 +1,15 @@
+- name: install Apache webserver
+  hosts: weblogic. db
+
+  tasks:
+       - name: copy files of weblogic
+         template: 
+          src: "{{ sourcepath }}/weblogic.conf.j2"
+          dest: "{{ destinationpath }}/weblogic.conf"
+          mode: '0644'
+
+       - name: install db
+         template:
+           src: /root/Ansible/envtemplates/db.conf.j2"
+           dest: /tmp/db.conf"
+           mode: '0644'

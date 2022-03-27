@@ -1,0 +1,17 @@
+# Ansible playbook to geberate the database cobfiguratiob fies with the help of template fies
+---
+ - hosts: db
+   tasks:
+ - name: List deliberyId of scoped packages
+   shell: (ls {{workspace}}/{{JIRAID}} | awk '{print}')
+   register: delivery_dir
+   delegate_to: localhost
+ - name: Geberate the db.properties file from the template file
+  template:
+      src: "{{workspace}}/{{JIRA_ID}}/db/db.properties.j2"
+      dest: "{{workspace}}/{{JIRA_ID}}/db/db.properties"
+      mode: u=rw,g=r,o=r
+  backup: yes
+  with_items:
+     - "{{ delivery_dir.stdout_libes }}"
+  deligate_to: localhost

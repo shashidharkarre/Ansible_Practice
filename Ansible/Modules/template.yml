@@ -1,0 +1,9 @@
+- name: install Apache webserver
+  hosts: slaves
+
+  tasks:
+       - name: copy files
+         template: 
+          src: "{{ sourcepath }}/Ansible/envtemplates/testfile.j2"
+          dest: "{{ destinationpath }}/testfile"
+          mode: '0644'

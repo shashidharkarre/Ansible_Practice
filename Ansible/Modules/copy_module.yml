@@ -1,0 +1,10 @@
+- name: install Apache webserver
+  hosts: slaves
+
+  tasks:
+       - name: copy files
+         become: root
+         copy:  
+          src: "{{ sourcepath }}/testfile"
+          dest: "{{ destinationpath }}/testfile"
+          mode: '0644'
